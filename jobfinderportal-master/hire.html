@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Board</title>
+    <link rel="stylesheet" href="./assets/css/hire.css">
+</head>
+<body>
+    <header>
+        <h1>HIRE TALENTS</h1>
+    </header>
+    <div class="col-lg-6 col-md-7">
+        <div class="menu-wrapper">
+            <!-- Main-menu -->
+            <div class="main-menu">
+                <nav class="d-none d-lg-block">
+                    <ul id="navigation">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="job_listing.html">Find Jobs</a></li>
+                        <li><a href="hire.html">Hire Talents</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3">
+        <!-- Language Selector -->
+        
+        <!-- Header-btn -->
+        <div class="header-btn d-none f-right d-lg-block" id="login-btn">
+            <a id="login-link" href="./Signup.html" class="btn head-btn2">Login</a>
+            <!-- Bell icon -->
+            <a href="./hiretalents_profile.html" style="margin-left: 50px;"><i class="fas fa-bell" style="font-size: 20px; color: #333;"></i></a>
+            <div id="google_translate_element"></div>
+        </div>
+    </div>
+    <section id="job-form">
+        <h2>Post a Job</h2>
+        <div class="input-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" placeholder="Enter job title">
+        </div>
+        <div class="input-group">
+            <label for="jobType">Job Type:</label>
+            <input type="text" id="jobType" placeholder="Enter job type">
+        </div>
+        <div class="input-group">
+            <label for="location">Location:</label>
+            <input type="text" id="location" placeholder="Enter job location">
+        </div>
+        <div class="input-group">
+            <label for="salaryRange">Salary Range:</label>
+            <input type="text" id="salaryRange" placeholder="Enter salary range">
+        </div>
+        <div class="input-group">
+            <label for="jobDesc">Job Description:</label>
+            <textarea id="jobDesc" placeholder="Enter job description"></textarea>
+        </div>
+        <div class="input-group">
+            <label for="skills">Skills:</label>
+            <input type="text" id="skills" placeholder="Enter required skills">
+        </div>
+        <div class="input-group">
+            <label for="education">Education:</label>
+            <input type="text" id="education" placeholder="Enter required education">
+        </div>
+        <div class="input-group">
+            <label for="postedDate">Posted Date:</label>
+            <input type="date" id="postedDate">
+        </div>
+        <div class="input-group">
+            <label for="vacancy">Vacancy:</label>
+            <input type="number" id="vacancy" placeholder="Enter number of vacancies">
+        </div>
+        <div class="input-group">
+            <label for="jobNature">Job Nature:</label>
+            <input type="text" id="jobNature" placeholder="Enter job nature">
+        </div>
+        <div class="input-group">
+            <label for="applicationDate">Application Date:</label>
+            <input type="date" id="applicationDate">
+        </div>
+        <div class="input-group">
+            <label for="companyName">Company Name:</label>
+            <input type="text" id="companyName" placeholder="Enter company name">
+        </div>
+        <div class="input-group">
+            <label for="companyDesc">Company Description:</label>
+            <input type="text" id="companyDesc" placeholder="Enter company description">
+        </div>
+        <div class="input-group">
+            <label for="web">Web:</label>
+            <input type="text" id="web" placeholder="Enter company website">
+        </div>
+        <div class="input-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter contact email">
+        </div>
+        <button id="post-job-btn">Post Project</button>
+    </section>
+    <section id="job-listings">
+        <!-- Job listings will be displayed here -->
+    </section>
+
+    <!-- Details screen -->
+    <div id="details-screen">
+        <div id="details-modal">
+            <h2 id="details-title"></h2>
+            <p id="details-time"></p>
+            <p id="details-description"></p>
+            <p id="details-salary"></p>
+            <p id="details-budget"></p>
+            <button id="close-btn">Close</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('post-job-btn').addEventListener('click', function() {
+            const jobData = {
+                userId: sessionStorage.getItem("id"),
+                title: document.getElementById('title').value,
+                jobType: document.getElementById('jobType').value,
+                location: document.getElementById('location').value,
+                salaryRange: document.getElementById('salaryRange').value,
+                jobDesc: document.getElementById('jobDesc').value,
+                skills: document.getElementById('skills').value,
+                education: document.getElementById('education').value,
+                postedDate: document.getElementById('postedDate').value,
+                vacancy: parseInt(document.getElementById('vacancy').value),
+                jobNature: document.getElementById('jobNature').value,
+                applicationDate: document.getElementById('applicationDate').value,
+                companyName: document.getElementById('companyName').value,
+                companyDesc: document.getElementById('companyDesc').value,
+                web: document.getElementById('web').value,
+                email: document.getElementById('email').value
+            };
+
+            axios.post('http://localhost:8081/api/jobs/create', jobData)
+                .then(response => {
+                    alert('Job posted successfully!');
+                    console.log(jobData);
+                    // Clear form fields
+                    document.querySelectorAll('input, textarea').forEach(input => {
+                        input.value = '';
+                    });
+                    window.location.href = './index.html';
+                })
+                .catch(error => {
+                    console.error('Error posting job:', error);
+                    alert('Error posting job. Please try again.');
+                });
+        });
+    </script>
+</body>
+</html>

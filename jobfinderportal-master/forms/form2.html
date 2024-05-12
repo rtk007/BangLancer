@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Skills Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('bg.jpeg');
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            color:white;
+            background-color: rgba(255, 255, 255, 0); /* Transparent background */
+            background-color: #ffffff00;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid white; /* White border */
+            border-radius: 5px;
+            background-color: transparent; /* Transparent background */
+            color: rgba(255, 255, 255, 0); /* Text color to white */
+        }
+        .skills-list {
+            margin-top: 10px;
+            padding: 0;
+            list-style-type: none;
+        }
+        .skills-list li {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .skills-list li:hover {
+            background-color: #0056b3;
+        }
+        #skillInput
+        {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid white; /* White border */
+            border-radius: 5px;
+            background-color: transparent; /* Transparent background */
+            color: white; /* Text color to white */
+        }
+        .submit-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Add Skills</h2>
+    <form id="skillsForm">
+        <div class="form-group">
+            <label for="skillInput">Skill:</label>
+            <input type="text" id="skillInput" name="skill" placeholder="Type a skill and press Enter">
+        </div>
+        <ul class="skills-list" id="skillsList"></ul>
+        <button type="submit" class="submit-btn">Submit</button>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+<script>
+    const skillInput = document.getElementById('skillInput');
+    const skillsList = document.getElementById('skillsList');
+    const skillsForm = document.getElementById('skillsForm');
+
+    skillInput.addEventListener('keypress', function(event) {
+        // Check if Enter key is pressed
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission
+            const skill = skillInput.value.trim(); // Get the skill value
+            if (skill !== '') {
+                addSkill(skill); // Add the skill to the list
+                skillInput.value = ''; // Clear the input field
+            }
+        }
+    });
+
+    function addSkill(skill) {
+        const li = document.createElement('li'); // Create a new list item
+        li.textContent = skill; // Set the text content of the list item
+        skillsList.appendChild(li); // Append the list item to the skills list
+    }
+
+    skillsForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get user id from session storage
+        const userId = sessionStorage.getItem('id');
+
+        // Get all skills from the list
+        const skills = [];
+        document.querySelectorAll('#skillsList li').forEach(function(skill) {
+            skills.push(skill.textContent);
+        });
+
+        // Send skills data along with user id using Axios
+        axios.post('http://localhost:8081/skills/submit', { skills: skills, userId: userId })
+            .then(function (response) {
+                console.log(response.data);
+                alert('Skills submitted successfully!');
+                // Clear skills list after submission
+                skillsList.innerHTML = '';
+
+                window.location.href = "./form3.html";
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert('Error submitting skills. Please try again later.');
+            });
+    });
+</script>
+</body>
+</html>

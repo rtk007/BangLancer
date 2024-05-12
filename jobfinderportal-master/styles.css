@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; /* White background */
+}
+
+.profile-container {
+    padding: 40px; /* Increase padding for more spacing */
+}
+
+.alert {
+    background-color: #f0f8ff; /* Light blue alert background */
+    border: 1px solid #add8e6; /* Light blue alert border */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px; /* Increase margin bottom for more spacing */
+}
+
+.alert p {
+    margin: 0;
+}
+
+.close-btn {
+    background-color: transparent;
+    border: none;
+    color: #000000; /* Black close button text color */
+    cursor: pointer;
+    float: right;
+}
+
+.profile-details {
+    margin-bottom: 30px; /* Increase margin bottom for more spacing */
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+}
+
+.profile-picture img {
+    width: 120px; /* Increase profile picture size */
+    height: 120px; /* Increase profile picture size */
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 30px; /* Increase margin right for more spacing */
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 28px; /* Increase profile name font size */
+    color: #333333; /* Dark text color */
+}
+
+.profile-title,
+.profile-location,
+.profile-status {
+    color: #666666; /* Medium text color */
+    margin: 10px 0; /* Increase margin top and bottom for more spacing */
+}
+
+.profile-actions button {
+    background-color: #008000; /* Dark green button background */
+    color: #ffffff; /* White button text color */
+    border: none;
+    padding: 15px 30px; /* Increase padding for more spacing */
+    margin-right: 20px; /* Increase margin right for more spacing */
+    border-radius: 10px; /* Increase border radius for rounded corners */
+    cursor: pointer;
+}
+
+.profile-actions button:hover {
+    background-color: #006400; /* Darker green button background on hover */
+}
+
+.profile-bio h2 {
+    margin-top: 50px; /* Increase margin top for more spacing */
+    margin-bottom: 20px; /* Increase margin bottom for more spacing */
+    color: #333333; /* Dark text color */
+    font-size: 24px; /* Decrease bio header font size */
+}
+
+.profile-bio p {
+    color: #666666; /* Medium text color */
+    margin-bottom: 30px; /* Increase margin bottom for more spacing */
+    line-height: 1.5; /* Increase line height for better readability */
+}
+
+.profile-skills h2,
+.profile-work-history h2,
+.profile-education h2,
+.profile-certifications h2,
+.profile-employment-history h2,
+.profile-other-experiences h2 {
+    margin-top: 50px; /* Increase margin top for more spacing */
+    margin-bottom: 20px; /* Increase margin bottom for more spacing */
+    color: #333333; /* Dark text color */
+    font-size: 24px; /* Decrease header font size */
+}
+
+.profile-skills ul,
+.profile-certifications ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.profile-skills li,
+.profile-certifications li {
+    display: inline-block;
+    margin-right: 15px; /* Increase margin right for more spacing */
+    margin-bottom: 15px; /* Increase margin bottom for more spacing */
+    background-color: #d3d3d3; /* Light grey skill/certification background */
+    padding: 10px 20px; /* Increase padding for more spacing */
+    border-radius: 10px; /* Increase border radius for rounded corners */
+    color: #333333; /* Dark text color */
+}
+
+.profile-work-history .work-item,
+.profile-education .education-item,
+.profile-certifications ul li,
+.profile-employment-history .employment-item,
+.profile-other-experiences .experience-item {
+    margin-bottom: 30px; /* Increase margin bottom for more spacing */
+    border-left: 4px solid #008000; /* Dark green border for work history, education, etc. */
+    padding-left: 20px; /* Increase padding left for more spacing */
+}
+
+.profile-work-history .work-item h3,
+.profile-education .education-item h3,
+.profile-certifications ul li,
+.profile-employment-history .employment-item h3,
+.profile-other-experiences .experience-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px; /* Increase margin bottom for more spacing */
+    color: #333333; /* Dark text color */
+}
+
+.profile-work-history .work-item p,
+.profile-education .education-item p,
+.profile-certifications ul li,
+.profile-employment-history .employment-item p,
+.profile-other-experiences .experience-item p {
+    margin: 0;
+    color: #666666; /* Medium text color */
+}

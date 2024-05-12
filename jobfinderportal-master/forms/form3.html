@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work History Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-image: url('bg.jpeg');
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff00;
+            color:white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #cccccc00;
+            color:white;
+            border-radius: 5px;
+        }
+        .form-group textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            background-color: #cccccc00;
+            border-radius: 5px;
+        }
+        .add-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .work-history {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .work-history:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Work History</h2>
+    <div id="workHistoryContainer">
+        <div class="work-history">
+            <div class="form-group">
+                <label for="position">Position at Company:</label>
+                <input type="text" id="position" name="position" required>
+            </div>
+            <div class="form-group">
+                <label for="fromDate">From:</label>
+                <input type="date" id="fromDate" name="fromDate" required>
+            </div>
+            <div class="form-group">
+                <label for="toDate">Till:</label>
+                <input type="date" id="toDate" name="toDate" required>
+            </div>
+            <div class="form-group">
+                <label for="project">Projects Worked On:</label>
+                <textarea id="project" name="project" required></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="add-icon" id="addIcon">+</div>
+    <button id="submitButton">Submit</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const addIcon = document.getElementById('addIcon');
+    const workHistoryContainer = document.getElementById('workHistoryContainer');
+    const submitButton = document.getElementById('submitButton');
+
+    addIcon.addEventListener('click', function() {
+        const newWorkHistory = document.createElement('div');
+        newWorkHistory.className = 'work-history';
+        newWorkHistory.innerHTML = `
+            <div class="form-group">
+                <label for="position">Position at Company:</label>
+                <input type="text" name="position" required>
+            </div>
+            <div class="form-group">
+                <label for="fromDate">From:</label>
+                <input type="date" name="fromDate" required>
+            </div>
+            <div class="form-group">
+                <label for="toDate">Till:</label>
+                <input type="date" name="toDate" required>
+            </div>
+            <div class="form-group">
+                <label for="project">Projects Worked On:</label>
+                <textarea name="project" required></textarea>
+            </div>
+        `;
+        workHistoryContainer.appendChild(newWorkHistory);
+    });
+
+    submitButton.addEventListener('click', function() {
+    const workHistories = [];
+    const workHistoryForms = document.querySelectorAll('.work-history');
+    workHistoryForms.forEach(workHistoryForm => {
+        const position = workHistoryForm.querySelector('[name="position"]').value;
+        const from_date = workHistoryForm.querySelector('[name="fromDate"]').value;
+        const to_date = workHistoryForm.querySelector('[name="toDate"]').value;
+        const work_desc = workHistoryForm.querySelector('[name="project"]').value;
+        const userId = parseInt(sessionStorage.getItem('id'), 10);
+
+        workHistories.push({ position, from_date, to_date, work_desc, userId });
+    });
+
+    // Send data using Axios
+    console.log(workHistories);
+    axios.post('http://localhost:8081/api/work-history/post', workHistories)
+        .then(function (response) {
+            console.log(response.data);
+            alert('Work history submitted successfully!');
+            window.location.href = "./form4.html";
+        })
+        .catch(function (error) {
+            console.error(error);
+            alert('Error submitting work history. Please try again later.');
+        });
+});
+
+</script>
+
+</body>
+</html>

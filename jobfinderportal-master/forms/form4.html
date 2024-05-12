@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Education History Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            background-image: url('bg.jpeg');
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #312c2c00;
+            border-radius: 5px;
+            color:white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #fffcfc;
+            border-radius: 5px;
+            color:white;
+            background-color: #cccccc00;
+        }
+        .form-group input[type="date"] {
+            color:white;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .add-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .education-history {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .education-history:not(:last-child) {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Education History</h2>
+    <div id="educationHistoryContainer">
+        <div class="education-history">
+            <div class="form-group">
+                <label for="degree">Degree Name:</label>
+                <input type="text" id="degree" name="degree" required>
+            </div>
+            <div class="form-group">
+                <label for="university">University:</label>
+                <input type="text" id="university" name="university" required>
+            </div>
+            <div class="form-group">
+                <label for="gradYear">Graduation Year:</label>
+                <input type="number" id="gradYear" name="gradYear" required>
+            </div>
+            <div class="form-group">
+                <label for="cgpa">CGPA:</label>
+                <input type="number" step="0.01" id="cgpa" name="cgpa" required>
+            </div>
+        </div>
+    </div>
+    <div class="add-icon" id="addIcon">+</div>
+    <button id="submitButton">Submit</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    const addIcon = document.getElementById('addIcon');
+    const educationHistoryContainer = document.getElementById('educationHistoryContainer');
+    const submitButton = document.getElementById('submitButton');
+
+    addIcon.addEventListener('click', function() {
+        // Add new education history form
+        const newEducationHistory = document.createElement('div');
+        newEducationHistory.className = 'education-history';
+        newEducationHistory.innerHTML = `
+            <div class="form-group">
+                <label for="degree">Degree Name:</label>
+                <input type="text" name="degree" required>
+            </div>
+            <div class="form-group">
+                <label for="university">University:</label>
+                <input type="text" name="university" required>
+            </div>
+            <div class="form-group">
+                <label for="gradYear">Graduation Year:</label>
+                <input type="number" name="gradYear" required>
+            </div>
+            <div class="form-group">
+                <label for="cgpa">CGPA:</label>
+                <input type="number" step="0.01" name="cgpa" required>
+            </div>
+        `;
+        educationHistoryContainer.appendChild(newEducationHistory);
+    });
+
+    submitButton.addEventListener('click', function() {
+        // Collect education history data
+        const educationHistories = [];
+        const educationHistoryForms = document.querySelectorAll('.education-history');
+        educationHistoryForms.forEach(educationHistoryForm => {
+            const degree = educationHistoryForm.querySelector('[name="degree"]').value;
+            const university = educationHistoryForm.querySelector('[name="university"]').value;
+            const gradYear = educationHistoryForm.querySelector('[name="gradYear"]').value;
+            const cgpa = educationHistoryForm.querySelector('[name="cgpa"]').value;
+            const userId = parseInt(sessionStorage.getItem('id'), 10);
+
+            educationHistories.push({ degree, university, gradYear, cgpa, userId });
+        });
+
+        // Send data using Axios
+        axios.post('http://localhost:8081/api/education-history/post',  educationHistories )
+            .then(function (response) {
+                console.log(response.data);
+                alert('Education history submitted successfully!');
+                window.location.href = "./form5.html";
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert('Error submitting education history. Please try again later.');
+            });
+    });
+</script>
+
+</body>
+</html>
